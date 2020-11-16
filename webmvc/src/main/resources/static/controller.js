@@ -16,5 +16,20 @@ app.controller('myCtrl', function($scope, $http) {
 		});
 	}
 $scope.buscarTodos();
+
+	$scope.put = function(){
+		$http.put("http://localhost:8080/manutencoes/"+$scope.id,{
+			'nome':$scope.nome,
+			'categoria':$scope.categoria,
+			'pago':$scope.pago
+		})
+	}
+	$scope.delet = function(){
+		$http.delete("http://localhost:8080/manutencoes/"+$scope.id,{
+			'nome':$scope.nome,
+			'categoria':$scope.categoria,
+			'pago':$scope.pago
+		})
+	}
 });
 

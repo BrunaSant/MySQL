@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 @RestController
 @RequestMapping("/")
@@ -35,6 +37,8 @@ public class Controller implements WebMvcConfigurer{
 	public List<ManutencaoTable> buscarTodos(){
 		return repository.findAll();
 	}
+	
+
 	
 		//post resp por inserir
 	@PostMapping("/manutencoes")
@@ -89,7 +93,18 @@ public class Controller implements WebMvcConfigurer{
 	public void delete(@PathVariable Long id) {
 		repository.deleteById(id);
 	}	
-
+	
+	@Autowired
+	private Services service;
+	
+	@GetMapping("/teste")
+    public ResponseEntity<List<ManutencaoTable>> listAllItens() {
+        List<ManutencaoTable> itens= service.findAllItens();
+        if(itens.isEmpty()){
+            return new ResponseEntity<List<ManutencaoTable>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+        }
+        return new ResponseEntity<List<ManutencaoTable>>(itens, HttpStatus.ACCEPTED);
+    }
 	
 }
 
